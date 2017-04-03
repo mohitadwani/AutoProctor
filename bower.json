@@ -1,0 +1,17 @@
+{
+  "name": "AutoProctor",
+  "homepage": "https://github.com/mohitadwani/AutoProctor",
+  "authors": [
+    "Mohit Adwani <mohitadwani@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
