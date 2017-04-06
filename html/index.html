@@ -5,10 +5,26 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Auto Proctor</title>
+    <style>
+    video,
+    canvas {
+        margin-left: 230px;
+        margin-top: 120px;
+        position: absolute;
+    }
+    </style>
 </head>
 
 <body ng-app="indexApp" ng-controller="indexCtrl as ctrl">
-    <video id="video" autoplay></video>
+    <div class="demo-container">
+        <video id="video" width="320" height="240" autoplay></video>
+        <canvas id="canvas" width="320" height="240"></canvas>
+    </div>
+    <!-- <video id="video" autoplay></video> -->
+    <script src="../bower_components/tracking.js/build/tracking-min.js"></script>
+    <script src="../bower_components/tracking.js/build/data/face-min.js"></script>
+    <!-- <script src="../bower_components/tracking.js/build/data/eye-min.js"></script> -->
+    <!-- <script src="../bower_components/tracking.js/build/data/mouth-min.js"></script> -->
     <script src="../bower_components/angular/angular.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="../js/index.js" type="text/javascript" charset="utf-8"></script>
 </body>
