@@ -8,11 +8,17 @@
     <style>
     video,
     canvas {
-        top:30%;
-        left:30%;
+        top: 10%;
+        left: 25%;
         position: absolute;
     }
     </style>
+    <script src="../bower_components/dat-gui/build/dat.gui.min.js" type="text/javascript"></script>
+    <script src="../bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
+    <script src="../bower_components/tracking.js/build/tracking-min.js" type="text/javascript"></script>
+    <script src="../bower_components/tracking.js/build/data/face-min.js" type="text/javascript"></script>
+    <script src="../bower_components/angular/angular.js" type="text/javascript"></script>
+    <script src="../js/index.js" type="text/javascript"></script>
 </head>
 
 <body ng-app="indexApp" ng-controller="indexCtrl as ctrl">
@@ -20,13 +26,12 @@
         <video id="video" width="640" height="480" autoplay muted></video>
         <canvas id="canvas" width="640" height="480"></canvas>
     </div>
+    <div>
+        <button id="record" ng-click="ctrl.startRecording()">Start Recording</button>
+        <button id="stop" ng-click="ctrl.stopRecording()">stop</button>
+        <button id="download" ng-click="ctrl.download()">Download</button>
+    </div>
     <!-- <video id="video" autoplay></video> -->
-    <!-- <script src="../bower_components/dat-gui/build/dat.gui.min.js"></script> -->
-    <!-- <script src="../bower_components/jquery/dist/jquery.min.js"></script> -->
-    <script src="../bower_components/tracking.js/build/tracking-min.js"></script>
-    <script src="../bower_components/tracking.js/build/data/face-min.js"></script>
-    <script src="../bower_components/angular/angular.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="../js/index.js" type="text/javascript" charset="utf-8"></script>
 </body>
 
 </html>
