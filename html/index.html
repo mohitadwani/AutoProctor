@@ -6,13 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Auto Proctor</title>
     <style>
-    video,
-    canvas {
-        top: 10%;
-        left: 25%;
+    .demo-container{
+        position: relative;
+    }
+    .camera-video{
+        /*top: 10%;*/
+        /*left: 25%;*/
         position: absolute;
     }
+    .screen-video {
+        margin-left: 500px;
+    }
     </style>
+    <script src="//cdn.webrtc-experiment.com/getScreenId.js"></script>
+    <script src="//cdn.webrtc-experiment.com/screen.js"></script>
     <script src="../bower_components/dat-gui/build/dat.gui.min.js" type="text/javascript"></script>
     <script src="../bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
     <script src="../bower_components/tracking.js/build/tracking-min.js" type="text/javascript"></script>
@@ -23,15 +30,26 @@
 
 <body ng-app="indexApp" ng-controller="indexCtrl as ctrl">
     <div class="demo-container">
-        <video id="video" width="640" height="480" autoplay muted></video>
-        <canvas id="canvas" width="640" height="480"></canvas>
+        <video class="camera-video" id="video" width="480" height="320" autoplay muted></video>
+        <canvas class="camera-video" id="canvas" width="480" height="320"></canvas>
     </div>
+    <video class="screen-video" id="screen" width="480" height="320" autoplay muted></video>
     <div>
         <button id="record" ng-click="ctrl.startRecording()">Start Recording</button>
         <button id="stop" ng-click="ctrl.stopRecording()">stop</button>
         <button id="download" ng-click="ctrl.download()">Download</button>
     </div>
     <!-- <video id="video" autoplay></video> -->
+
+    <script src='https://cdn.webrtc-experiment.com/firebase.js'> </script>
+    <script src="//cdn.webrtc-experiment.com/getScreenId.js"></script>
+    <script src="//cdn.webrtc-experiment.com/screen.js"></script>
+    <script src="../bower_components/dat-gui/build/dat.gui.min.js" type="text/javascript"></script>
+    <script src="../bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
+    <script src="../bower_components/tracking.js/build/tracking-min.js" type="text/javascript"></script>
+    <script src="../bower_components/tracking.js/build/data/face-min.js" type="text/javascript"></script>
+    <script src="../bower_components/angular/angular.js" type="text/javascript"></script>
+    <script src="../js/index.js" type="text/javascript"></script>
 </body>
 
 </html>

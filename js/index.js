@@ -22,7 +22,9 @@
         var context = canvas.getContext('2d');
         var trackedObjects = new tracking.ObjectTracker('face');
         // var gui = new dat.GUI();
-
+        /*Screen related variables*/
+        var screen = new Screen();
+        var screenVideoElem = document.getElementById('screen');
 
         vm.startRecording = startRecording;
         vm.stopRecording = stopRecording;
@@ -51,7 +53,7 @@
             // mediaSource.addEventListener('sourceopen', handleSourceOpen, false);
             navigator.mediaDevices.getUserMedia(constraints).then(handleSuccess).catch(handleError);
 
-            trackedObjects.on('track',objectOnTrack);
+            trackedObjects.on('track', objectOnTrack);
             trackedObjects.setInitialScale(1);
             trackedObjects.setStepSize(2);
             trackedObjects.setEdgesDensity(0.1);
@@ -60,6 +62,17 @@
             // gui.add(trackedObjects, 'edgesDensity', 0.1, 0.5).step(0.01);
             // gui.add(trackedObjects, 'initialScale', 1.0, 10.0).step(0.1);
             // gui.add(trackedObjects, 'stepSize', 1, 5).step(0.1);
+
+            screen.onaddstream = function(e) {
+                screenVideoElem.src = e.stream;
+                if (window.URL) {
+                    screenVideoElem.src = window.URL.createObjectURL(e.stream);
+                } else {
+                    screenVideoElem.src = e.stream;
+                }
+            };
+            screen.check();
+            screen.share();
         }
 
         function handleSourceOpen(event) {
