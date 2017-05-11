@@ -17,6 +17,12 @@
         // };
         var recordedBlobs;
         var mediaRecorder;
+        var sourceBuffer;
+        /*screen recorder variables*/
+        var screenStream;
+        var screenRecordedBlobs;
+        var screenRecorder;
+
         /*Head tracker related variables*/
         var canvas = document.getElementById('canvas'); //to draw the face rect
         var context = canvas.getContext('2d');
@@ -39,8 +45,11 @@
         var handleDataAvailable = handleDataAvailable;
 
         var objectOnTrack = objectOnTrack; // head track listenes
-        window.onblur = windowOnblur;
-        window.onfocus = windowOnfocus;
+
+        var startScreenRecording = startScreenRecording;
+        var screenRecorderOnStop = screenRecorderOnStop;
+        var onScreenDataAvailable = onScreenDataAvailable;
+        var stopScreenRecording = stopScreenRecording;
 
         init();
 
@@ -65,11 +74,14 @@
 
             screen.onaddstream = function(e) {
                 screenVideoElem.src = e.stream;
+                screenStream = e.stream;
+                console.log(e.stream);
                 if (window.URL) {
                     screenVideoElem.src = window.URL.createObjectURL(e.stream);
                 } else {
                     screenVideoElem.src = e.stream;
                 }
+                window.onblur = windowOnblur;
             };
             screen.check();
             screen.share();
@@ -97,11 +109,11 @@
         }
 
         function windowOnblur() {
-            // console.log('window on blur');
+            startScreenRecording();
         }
 
         function windowOnfocus() {
-            // console.log('window on focus');
+            stopScreenRecording();
         }
 
         function objectOnTrack(event) {
@@ -109,7 +121,7 @@
             if (event.data.length === 0) {
                 console.log('Not Detected');
             } else {
-                console.log(event.data);
+                // console.log(event.data);
                 event.data.forEach(function(rect) {
                     context.strokeStyle = '#a64ceb';
                     context.strokeRect(rect.x, rect.y, rect.width, rect.height);
@@ -121,6 +133,64 @@
             }
         }
 
+        function startScreenRecording() {
+            screenRecordedBlobs = [];
+            var options = { mimeType: 'video/webm;codecs=vp9' };
+            if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                console.log(options.mimeType + ' is not Supported');
+                options = { mimeType: 'video/webm;codecs=vp8' };
+                if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                    console.log(options.mimeType + ' is not Supported');
+                    options = { mimeType: 'video/webm' };
+                    if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                        console.log(options.mimeType + ' is not Supported');
+                        options = { mimeType: '' };
+                    }
+                }
+            }
+            try {
+                screenRecorder = new MediaRecorder(screenStream, options);
+            } catch (e) {
+                console.error('Exception while creating MediaRecorder: ' + e);
+                alert('Exception while creating MediaRecorder: ' + e + '. mimeType: ' + options.mimeType);
+                return;
+            }
+            screenRecorder.onstop = screenRecorderOnStop;
+            screenRecorder.ondataavailable = onScreenDataAvailable;
+            screenRecorder.start(10); // collect 10ms of data
+            console.log('screen recording started');
+            window.onfocus = windowOnfocus;
+        }
+
+        function screenRecorderOnStop(event) {
+
+        }
+
+        function onScreenDataAvailable(event) {
+            if (event.data && event.data.size > 0) {
+                screenRecordedBlobs.push(event.data);
+            }
+        }
+
+        function stopScreenRecording() {
+            console.log(screenRecorder);
+            console.log('screen recording stopped');
+            screenRecorder.stop();
+            var blob = new Blob(screenRecordedBlobs, { type: 'video/webm' });
+            var url = window.URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'test.webm';
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(function() {
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }, 100);
+        }
+
+        /*Vm related functions start*/
         function startRecording() {
             recordedBlobs = [];
             var options = { mimeType: 'video/webm;codecs=vp9' };
@@ -167,5 +237,6 @@
                 window.URL.revokeObjectURL(url);
             }, 100);
         }
+        /*Vm related functions end*/
     });
 })();
