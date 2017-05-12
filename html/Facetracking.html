@@ -76,7 +76,8 @@
 			
 			// the face tracking setup
 			
-			var htracker = new headtrackr.Tracker({ui : false, debug : debugOverlay});
+			var htracker = new headtrackr.Tracker({calcAngles : true,ui : false, debug : debugOverlay});
+			// var htracker = new headtrackr.Tracker({altVideo : {ogv : "./media/capture5.ogv", mp4 : "./media/capture5.mp4"}, calcAngles : true, ui : false, headPosition : false, debug : debugOverlay});
 			htracker.init(videoInput, canvasInput);
 			htracker.start();
 			
